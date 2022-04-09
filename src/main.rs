@@ -1,7 +1,3 @@
-use rand::Rng;
-
-use hit_record::HitRecord;
-
 use crate::camera::Camera;
 use crate::image::Image;
 use crate::ray::Ray;

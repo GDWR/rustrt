@@ -1,6 +1,5 @@
 use std::fs::File;
 use std::io::Write;
-use std::str::Split;
 
 use crate::vec3::Vec3;
 

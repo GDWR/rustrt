@@ -1,7 +1,6 @@
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
-use rand::{random, Rng};
-use rand::rngs::ThreadRng;
+use rand::{random};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Vec3(pub f32, pub f32, pub f32);

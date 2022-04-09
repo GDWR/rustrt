@@ -1,6 +1,3 @@
-use std::cmp::Ordering;
-
-use crate::Sphere;
 use crate::vec3::Vec3;
 
 
