@@ -1,5 +1,5 @@
-use crate::Ray;
 use crate::hit_record::HitRecord;
+use crate::Ray;
 use crate::vec3::Vec3;
 
 #[derive(Clone, Copy, Debug, Default)]
@@ -32,11 +32,12 @@ impl Sphere {
         }
 
         let pos = ray.at(temp);
-        return Some(HitRecord {
+
+        Some(HitRecord {
             t: temp,
-            pos: pos,
+            pos,
             normal: (pos - self.pos).normalize(),
             obj: Box::new(self),
-        });
+        })
     }
 }

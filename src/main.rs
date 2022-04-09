@@ -18,7 +18,7 @@ const HEIGHT: usize = 1080;
 const FOV: f32 = 40.;
 const MAX_DEPTH: usize = 40;
 const NUM_SAMPLES: usize = 300;
-const SKY_COLOUR: Vec3 = Vec3(173. / 255., 273. / 255., 255. / 255.);
+const SKY_COLOUR: Vec3 = Vec3(173. / 255., 273. / 255., 1.);
 
 fn raytrace(scene: &Scene, mut ray: Ray) -> Vec3 {
     let mut result = Vec3::ones();
@@ -34,7 +34,7 @@ fn raytrace(scene: &Scene, mut ray: Ray) -> Vec3 {
         }
     }
 
-    return result;
+    result
 }
 
 fn main() {

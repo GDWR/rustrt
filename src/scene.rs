@@ -8,14 +8,13 @@ pub struct Scene {
 }
 
 impl Scene {
-    pub fn add(self: &mut Self, sphere: Sphere) {
+    pub fn add(&mut self, sphere: Sphere) {
         self.objs.push(sphere)
     }
 
     pub fn hit(&self, ray: Ray) -> Option<HitRecord> {
         self.objs.iter()
-            .map(|o| o.hit(ray))
-            .flatten()
+            .filter_map(|o| o.hit(ray))
             .reduce(|closest, hit| if closest.t < hit.t { closest } else { hit })
     }
 }

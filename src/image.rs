@@ -25,33 +25,31 @@ impl Image {
             return Err("Unknown filetype");
         }
 
-        return Ok(());
+        Ok(())
     }
 
     pub fn save_as_ppm(&mut self, filepath: &str) {
         let mut file = File::create(filepath)
             .expect("Couldn't open file");
 
-        let header = format!(
-            "P6 { } { } 255\n", self.width.to_string(), self.height.to_string());
-
-        file.write(header.as_bytes())
+        let header = format!("P6 { } { } 255\n", self.width, self.height);
+        file.write_all(header.as_bytes())
             .expect("Couldn't write header");
 
 
-        let mut to_be_written: Vec<u8> = Vec::new();
+        let mut to_be_written = Vec::new();
 
         self.data
             .iter()
             .for_each(|e| to_be_written.push((e * 255.) as u8));
 
-        file.write(&to_be_written)
+        file.write_all(&to_be_written)
             .expect("Couldn't write data");
     }
 
     pub fn set_pixel(&mut self, x: usize, y: usize, rgb: Vec3) {
         let idx = (x + y * self.width) * 3;
-        self.data[idx + 0] = rgb.r();
+        self.data[idx] = rgb.r();
         self.data[idx + 1] = rgb.g();
         self.data[idx + 2] = rgb.b();
     }

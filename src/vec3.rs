@@ -28,32 +28,32 @@ impl Vec3 {
 
     #[inline]
     pub fn x(self) -> f32 {
-        return self.0;
+        self.0
     }
 
     #[inline]
     pub fn y(self) -> f32 {
-        return self.1;
+        self.1
     }
 
     #[inline]
     pub fn z(self) -> f32 {
-        return self.2;
+        self.2
     }
 
     #[inline]
     pub fn r(self) -> f32 {
-        return self.0;
+        self.0
     }
 
     #[inline]
     pub fn g(self) -> f32 {
-        return self.1;
+        self.1
     }
 
     #[inline]
     pub fn b(self) -> f32 {
-        return self.2;
+        self.2
     }
 
     #[inline]
