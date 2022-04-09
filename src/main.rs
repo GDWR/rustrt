@@ -40,7 +40,7 @@ fn raytrace(scene: &Scene, mut ray: Ray) -> Vec3 {
 fn main() {
     let mut img = Image::create(WIDTH, HEIGHT);
     let camera = Camera::create(
-        Vec3::zeros(),
+        Vec3::new(0., 0., -5.),
         Vec3::new(0., 0., 1.),
         Vec3::new(0., 1., 0.),
         FOV,
