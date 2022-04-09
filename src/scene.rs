@@ -1,6 +1,6 @@
-use crate::Ray;
 use crate::hit_record::HitRecord;
 use crate::sphere::Sphere;
+use crate::Ray;
 
 #[derive(Default)]
 pub struct Scene {
@@ -13,7 +13,8 @@ impl Scene {
     }
 
     pub fn hit(&self, ray: Ray) -> Option<HitRecord> {
-        self.objs.iter()
+        self.objs
+            .iter()
             .filter_map(|o| o.hit(ray))
             .reduce(|closest, hit| if closest.t < hit.t { closest } else { hit })
     }

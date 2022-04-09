@@ -5,13 +5,13 @@ use crate::scene::Scene;
 use crate::sphere::Sphere;
 use crate::vec3::Vec3;
 
-mod image;
 mod camera;
-mod vec3;
+mod hit_record;
+mod image;
+mod ray;
 mod scene;
 mod sphere;
-mod ray;
-mod hit_record;
+mod vec3;
 
 const WIDTH: usize = 1920;
 const HEIGHT: usize = 1080;
@@ -30,7 +30,7 @@ fn raytrace(scene: &Scene, mut ray: Ray) -> Vec3 {
                 ray.pos = record.pos;
                 ray.dir = Vec3::random();
             }
-            None => return SKY_COLOUR * result
+            None => return SKY_COLOUR * result,
         }
     }
 
@@ -49,27 +49,21 @@ fn main() {
     );
 
     let scene = &mut Scene::default();
-    scene.add(
-        Sphere {
-            pos: Vec3::new(0., -100.5, 1.),
-            radius: 100.,
-            colour: Vec3::new(1., 0.6, 0.3),
-        }
-    );
-    scene.add(
-        Sphere {
-            pos: Vec3::new(-0.6, 0., 1.),
-            radius: 0.5,
-            colour: Vec3::new(0.2, 0.2, 1.),
-        }
-    );
-    scene.add(
-        Sphere {
-            pos: Vec3::new(0.6, 0., 1.),
-            radius: 0.5,
-            colour: Vec3::new(1., 0.2, 0.2),
-        }
-    );
+    scene.add(Sphere {
+        pos: Vec3::new(0., -100.5, 1.),
+        radius: 100.,
+        colour: Vec3::new(1., 0.6, 0.3),
+    });
+    scene.add(Sphere {
+        pos: Vec3::new(-0.6, 0., 1.),
+        radius: 0.5,
+        colour: Vec3::new(0.2, 0.2, 1.),
+    });
+    scene.add(Sphere {
+        pos: Vec3::new(0.6, 0., 1.),
+        radius: 0.5,
+        colour: Vec3::new(1., 0.2, 0.2),
+    });
 
     for y in 0..HEIGHT {
         for x in 0..WIDTH {

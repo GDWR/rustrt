@@ -1,6 +1,6 @@
 use crate::hit_record::HitRecord;
-use crate::Ray;
 use crate::vec3::Vec3;
+use crate::Ray;
 
 #[derive(Clone, Copy, Debug, Default)]
 pub struct Sphere {

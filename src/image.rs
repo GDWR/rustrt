@@ -15,7 +15,11 @@ impl Image {
     }
 
     pub fn create_with_colour(width: usize, height: usize, default_colour: f32) -> Self {
-        Image { width, height, data: vec![default_colour; 3 * width * height] }
+        Image {
+            width,
+            height,
+            data: vec![default_colour; 3 * width * height],
+        }
     }
 
     pub fn save(&mut self, filepath: &str) -> Result<(), &str> {
@@ -29,13 +33,11 @@ impl Image {
     }
 
     pub fn save_as_ppm(&mut self, filepath: &str) {
-        let mut file = File::create(filepath)
-            .expect("Couldn't open file");
+        let mut file = File::create(filepath).expect("Couldn't open file");
 
         let header = format!("P6 { } { } 255\n", self.width, self.height);
         file.write_all(header.as_bytes())
             .expect("Couldn't write header");
-
 
         let mut to_be_written = Vec::new();
 
@@ -43,8 +45,7 @@ impl Image {
             .iter()
             .for_each(|e| to_be_written.push((e * 255.) as u8));
 
-        file.write_all(&to_be_written)
-            .expect("Couldn't write data");
+        file.write_all(&to_be_written).expect("Couldn't write data");
     }
 
     pub fn set_pixel(&mut self, x: usize, y: usize, rgb: Vec3) {

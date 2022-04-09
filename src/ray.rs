@@ -1,12 +1,10 @@
 use crate::vec3::Vec3;
 
-
 #[derive(Debug, Default, Clone, Copy)]
 pub struct Ray {
     pub pos: Vec3,
     pub dir: Vec3,
 }
-
 
 impl Ray {
     #[inline]

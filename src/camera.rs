@@ -1,8 +1,8 @@
-use std::f32::consts::PI;
 use rand::random;
+use std::f32::consts::PI;
 
-use crate::Ray;
 use crate::vec3::Vec3;
+use crate::Ray;
 
 #[derive(Copy, Clone)]
 pub struct Camera {
@@ -19,7 +19,6 @@ pub struct Camera {
     w: Vec3,
 }
 
-
 impl Camera {
     pub fn create(pos: Vec3, dir: Vec3, up: Vec3, fov: f32, width: usize, height: usize) -> Camera {
         let w = -dir;
@@ -35,7 +34,19 @@ impl Camera {
         let vertical = v * y_size;
         let corner = pos - horizontal / 2. - vertical / 2. - w;
 
-        Camera { pos, dir, fov, w, u, v, width, height, horizontal, vertical, corner }
+        Camera {
+            pos,
+            dir,
+            fov,
+            w,
+            u,
+            v,
+            width,
+            height,
+            horizontal,
+            vertical,
+            corner,
+        }
     }
 
     pub fn get_ray(self, x: usize, y: usize) -> Ray {
