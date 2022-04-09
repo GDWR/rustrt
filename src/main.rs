@@ -1,5 +1,3 @@
-extern crate core;
-
 use rand::Rng;
 
 use hit_record::HitRecord;
