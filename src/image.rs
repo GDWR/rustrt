@@ -62,8 +62,8 @@ impl Image {
         let mut file = File::create(filepath).expect("Couldn't open file");
     }
 
+    #[inline]
     pub fn set_pixel(&mut self, x: usize, y: usize, rgb: Vec3) {
-        let idx = (x + y * self.width) * 3;
-        self.data[idx] = rgb;
+        self.data[x + y * self.width] = rgb;
     }
 }
