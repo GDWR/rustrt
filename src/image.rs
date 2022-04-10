@@ -41,11 +41,10 @@ impl Image {
         file.write_all(header.as_bytes())
             .expect("Couldn't write header");
 
-        let mut to_be_written = Vec::new();
-
-        self.data
+        let to_be_written = self.data
             .iter()
-            .for_each(|e| to_be_written.push((e * 255.) as u8));
+            .map(|e| ((e * 255.) as u8))
+            .collect::<Vec<_>>();
 
         file.write_all(&to_be_written).expect("Couldn't write data");
     }
