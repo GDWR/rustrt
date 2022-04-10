@@ -25,6 +25,8 @@ impl Image {
     pub fn save(&mut self, filepath: &str) -> Result<(), &str> {
         if filepath.ends_with(".ppm") {
             self.save_as_ppm(filepath);
+        } else if filepath.ends_with(".bpm") {
+            self.save_as_bmp(filepath)
         } else {
             return Err("Unknown filetype");
         }
@@ -46,6 +48,12 @@ impl Image {
             .for_each(|e| to_be_written.push((e * 255.) as u8));
 
         file.write_all(&to_be_written).expect("Couldn't write data");
+    }
+
+    pub fn save_as_bmp(&mut self, filepath: &str) {
+        let mut file = File::create(filepath).expect("Couldn't open file");
+
+
     }
 
     pub fn set_pixel(&mut self, x: usize, y: usize, rgb: Vec3) {

@@ -13,11 +13,11 @@ mod scene;
 mod sphere;
 mod vec3;
 
-const WIDTH: usize = 1920;
-const HEIGHT: usize = 1080;
+const WIDTH: usize = 800;
+const HEIGHT: usize = 500;
 const FOV: f32 = 40.;
-const MAX_DEPTH: usize = 40;
-const NUM_SAMPLES: usize = 300;
+const MAX_DEPTH: usize = 5;
+const NUM_SAMPLES: usize = 5;
 const SKY_COLOUR: Vec3 = Vec3(173. / 255., 273. / 255., 1.);
 
 fn raytrace(scene: &Scene, mut ray: Ray) -> Vec3 {
