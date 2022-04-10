@@ -6,7 +6,7 @@ use crate::vec3::Vec3;
 pub struct Image {
     width: usize,
     height: usize,
-    data: Vec<f32>,
+    data: Vec<Vec3>,
 }
 
 impl Image {
@@ -15,10 +15,12 @@ impl Image {
     }
 
     pub fn create_with_colour(width: usize, height: usize, default_colour: f32) -> Self {
+        let default_colour_rgb = Vec3::new(default_colour, default_colour, default_colour);
+
         Image {
             width,
             height,
-            data: vec![default_colour; 3 * width * height],
+            data: vec![default_colour_rgb; width * height],
         }
     }
 
@@ -41,25 +43,22 @@ impl Image {
         file.write_all(header.as_bytes())
             .expect("Couldn't write header");
 
-        let mut to_be_written = Vec::new();
-
-        self.data
+        let buff: &[u8] = &self
+            .data
             .iter()
-            .for_each(|e| to_be_written.push((e * 255.) as u8));
+            .map(|pixel_array| (*pixel_array) * 255.)
+            .flat_map(|pixel| [pixel.r() as u8, pixel.g() as u8, pixel.b() as u8])
+            .collect::<Vec<_>>();
 
-        file.write_all(&to_be_written).expect("Couldn't write data");
+        file.write_all(buff).expect("Couldn't write data");
     }
 
     pub fn save_as_bmp(&mut self, filepath: &str) {
         let mut file = File::create(filepath).expect("Couldn't open file");
-
-
     }
 
+    #[inline]
     pub fn set_pixel(&mut self, x: usize, y: usize, rgb: Vec3) {
-        let idx = (x + y * self.width) * 3;
-        self.data[idx] = rgb.r();
-        self.data[idx + 1] = rgb.g();
-        self.data[idx + 2] = rgb.b();
+        self.data[x + y * self.width] = rgb;
     }
 }
