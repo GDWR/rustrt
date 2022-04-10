@@ -43,19 +43,14 @@ impl Image {
         file.write_all(header.as_bytes())
             .expect("Couldn't write header");
 
-        let to_be_written = self
+        let buff: &[u8] = &self
             .data
             .iter()
-            .copied()
-            .map(|e| e * 255.)
-            .flat_map(|e| {
-                [e.r(), e.g(), e.b()]
-                    .iter()
-                    .map(|x| *x as u8)
-                    .collect::<Vec<u8>>()
-            })
-            .collect::<Vec<u8>>();
-        file.write_all(&to_be_written).expect("Couldn't write data");
+            .map(|pixel_array| (*pixel_array) * 255.)
+            .flat_map(|pixel| [pixel.r() as u8, pixel.g() as u8, pixel.b() as u8])
+            .collect::<Vec<_>>();
+
+        file.write_all(buff).expect("Couldn't write data");
     }
 
     pub fn save_as_bmp(&mut self, filepath: &str) {
