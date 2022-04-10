@@ -6,29 +6,7 @@ use crate::vec3::Vec3;
 pub struct Image {
     width: usize,
     height: usize,
-    data: Vec<f32>,
-}
-
-struct BitmapFileHeader {
-    bf_type: u16,
-    bf_size: u32,
-    bf_reserved1: u16,
-    bf_reserved2: u16,
-    bf_off_bits: u32
-}
-
-struct BitmapInfoHeader {
-    bi_size: u32,
-    bi_width: u32,
-    bi_height: u32,
-    bi_planes: u16,
-    bi_bit_count: u16,
-    bi_compression: u32,
-    bi_size_image: u32,
-    bi_x_px_meter: i32,
-    bi_y_px_meter: i32,
-    bi_clr_used: u32,
-    bi_clr_important: i32
+    data: Vec<Vec3>,
 }
 
 impl Image {
