@@ -50,11 +50,8 @@ impl Camera {
     }
 
     pub fn get_ray(self, x: usize, y: usize) -> Ray {
-        let dyrand: f32 = random();
-        let dxrand: f32 = random();
-
-        let dx: f32 = (dyrand + x as f32) / self.width as f32;
-        let dy: f32 = (dxrand + y as f32) / self.height as f32;
+        let dx: f32 = (random::<f32>() + x as f32) / self.width as f32;
+        let dy: f32 = (random::<f32>() + y as f32) / self.height as f32;
 
         Ray::new(
             self.pos,
