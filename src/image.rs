@@ -46,8 +46,7 @@ impl Image {
         let to_be_written = self
             .data
             .iter()
-            .copied()
-            .map(|e| e * 255.)
+            .map(|e| (*e) * 255.)
             .flat_map(|e| {
                 [e.r(), e.g(), e.b()]
                     .iter()
