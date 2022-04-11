@@ -68,9 +68,7 @@ impl Image {
             .flat_map(|pixel| {
                 if pixel.0 % self.width == self.width - 1 {
                     let mut result = vec![pixel.1.b() as u8, pixel.1.g() as u8, pixel.1.r() as u8];
-                    for _ in 0..(self.width % 4) {
-                        result.push(0);
-                    }
+                    result.extend(vec![0; self.width % 4]);
 
                     result
                 } else {
@@ -93,8 +91,7 @@ impl Image {
             0x42, 0x4D, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x36, 0x00, 0x00, 0x00,
         ];
 
-        let total_size: [u8; 4] = ((buff.len() + info_header.len() + 16) as u32)
-            .to_le_bytes();
+        let total_size: [u8; 4] = ((buff.len() + info_header.len() + 16) as u32).to_le_bytes();
 
         header[2..6].copy_from_slice(&total_size);
 
