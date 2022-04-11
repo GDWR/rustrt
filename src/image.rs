@@ -109,11 +109,11 @@ impl Image {
 
         header.splice(2..6, total_size);
 
-        let mut result: Vec<u8> = Vec::new();
-
-        result.append(&mut header);
-        result.append(&mut info_header);
-        result.append(&mut buff);
+        let result: Vec<u8> = [header, info_header, buff]
+            .iter()
+            .flatten()
+            .copied()
+            .collect();
 
         file.write_all(&result).expect("Couldn't write data");
     }
