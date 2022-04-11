@@ -64,23 +64,22 @@ impl Image {
             .rev()
             .flatten();
 
-        let mut buff: Vec<u8> = data
+        let buff: Vec<u8> = data
             .map(|pixel_array| pixel_array * 255.)
-            .flat_map(|pixel| [pixel.b() as u8, pixel.g() as u8, pixel.r() as u8])
-            .collect();
-
-        let padding_multiplyer = self.width % 4;
-
-        if padding_multiplyer != 0 {
-            (1..=self.height)
-                .map(|y| y * 3 * self.width)
-                .rev()
-                .for_each(|i| {
-                    for _ in 0..padding_multiplyer {
-                        buff.insert(i, 00)
+            .enumerate()
+            .flat_map(|pixel| {
+                if pixel.0 % self.width == self.width - 1 {
+                    let mut result = vec![pixel.1.b() as u8, pixel.1.g() as u8, pixel.1.r() as u8];
+                    for _ in 0..(self.width % 4) {
+                        result.push(0);
                     }
-                });
-        }
+
+                    result
+                } else {
+                    vec![pixel.1.b() as u8, pixel.1.g() as u8, pixel.1.r() as u8]
+                }
+            })
+            .collect();
 
         let mut info_header: [u8; 40] = [
             0x28, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x01, 0x00,
