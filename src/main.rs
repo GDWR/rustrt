@@ -78,5 +78,5 @@ fn main() {
         }
     }
 
-    img.save("test.ppm");
+    img.save("test.bmp");
 }
