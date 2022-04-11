@@ -92,17 +92,16 @@ impl Image {
         info_header[8..12].copy_from_slice(&(self.height as u32).to_le_bytes());
         info_header[20..24].copy_from_slice(&(((self.data.len() * 4) as u32).to_le_bytes()));
 
-        let mut header: Vec<u8> = vec![
+        let mut header: [u8; 14] = [
             0x42, 0x4D, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x36, 0x00, 0x00, 0x00,
         ];
 
-        let total_size: Vec<u8> = ((buff.len() + info_header.len() + 16) as u32)
-            .to_le_bytes()
-            .to_vec();
+        let total_size: [u8; 4] = ((buff.len() + info_header.len() + 16) as u32)
+            .to_le_bytes();
 
-        header.splice(2..6, total_size);
+        header[2..6].copy_from_slice(&total_size);
 
-        let result: Vec<u8> = [header, info_header.to_vec(), buff]
+        let result: Vec<u8> = [header.to_vec(), info_header.to_vec(), buff]
             .iter()
             .flatten()
             .copied()
