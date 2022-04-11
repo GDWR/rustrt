@@ -59,7 +59,7 @@ impl Image {
         let data: Vec<Vec3> = (0..self.height)
             .map(|y| {
                 let offset = y * self.width;
-                self.data[offset..offset+self.width].to_vec()
+                self.data[offset..offset + self.width].to_vec()
             })
             .rev()
             .flatten()
@@ -71,15 +71,23 @@ impl Image {
             .flat_map(|pixel| [pixel.b() as u8, pixel.g() as u8, pixel.r() as u8])
             .collect();
 
-        (1..=self.height)
-            .map(|y| y * 3 * self.width)
-            .rev()
-            .for_each(|i| {buff.insert(i, 00); buff.insert(i, 00)});
+        let padding_multiplyer = self.width % 4;
+
+        if padding_multiplyer != 0 {
+            (1..=self.height)
+                .map(|y| y * 3 * self.width)
+                .rev()
+                .for_each(|i| {
+                    for _ in 0..padding_multiplyer {
+                        buff.insert(i, 00)
+                    }
+                });
+        }
 
         let width: Vec<u8> = (self.width as u32).to_le_bytes().to_vec();
         let height: Vec<u8> = (self.height as u32).to_le_bytes().to_vec();
 
-        let buff_size = ((self.data.len()*4) as u32).to_le_bytes();
+        let buff_size = ((self.data.len() * 4) as u32).to_le_bytes();
 
         let mut info_header: Vec<u8> = vec![
             0x28, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x01, 0x00,
