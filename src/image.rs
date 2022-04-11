@@ -82,20 +82,15 @@ impl Image {
                 });
         }
 
-        let width: Vec<u8> = (self.width as u32).to_le_bytes().to_vec();
-        let height: Vec<u8> = (self.height as u32).to_le_bytes().to_vec();
-
-        let buff_size = ((self.data.len() * 4) as u32).to_le_bytes();
-
-        let mut info_header: Vec<u8> = vec![
+        let mut info_header: [u8; 40] = [
             0x28, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x01, 0x00,
             0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         ];
 
-        info_header.splice(4..8, width);
-        info_header.splice(8..12, height);
-        info_header.splice(20..24, buff_size);
+        info_header[4..8].copy_from_slice(&(self.width as u32).to_le_bytes());
+        info_header[8..12].copy_from_slice(&(self.height as u32).to_le_bytes());
+        info_header[20..24].copy_from_slice(&(((self.data.len() * 4) as u32).to_le_bytes()));
 
         let mut header: Vec<u8> = vec![
             0x42, 0x4D, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x36, 0x00, 0x00, 0x00,
@@ -107,7 +102,7 @@ impl Image {
 
         header.splice(2..6, total_size);
 
-        let result: Vec<u8> = [header, info_header, buff]
+        let result: Vec<u8> = [header, info_header.to_vec(), buff]
             .iter()
             .flatten()
             .copied()
