@@ -101,11 +101,10 @@ impl Image {
 
         header[2..6].copy_from_slice(&total_size);
 
-        let result: Vec<u8> = [header.to_vec(), info_header.to_vec(), buff]
-            .iter()
-            .flatten()
-            .copied()
-            .collect();
+        let mut result: Vec<u8> = vec![];
+        result.extend_from_slice(&header);
+        result.extend_from_slice(&info_header);
+        result.extend(buff);
 
         file.write_all(&result).expect("Couldn't write data");
     }
