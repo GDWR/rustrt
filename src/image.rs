@@ -56,18 +56,16 @@ impl Image {
     pub fn save_as_bmp(&mut self, filepath: &str) {
         let mut file = File::create(filepath).expect("Couldn't open file");
 
-        let data: Vec<Vec3> = (0..self.height)
+        let data = (0..self.height)
             .map(|y| {
                 let offset = y * self.width;
                 self.data[offset..offset + self.width].to_vec()
             })
             .rev()
-            .flatten()
-            .collect();
+            .flatten();
 
         let mut buff: Vec<u8> = data
-            .iter()
-            .map(|pixel_array| (*pixel_array) * 255.)
+            .map(|pixel_array| pixel_array * 255.)
             .flat_map(|pixel| [pixel.b() as u8, pixel.g() as u8, pixel.r() as u8])
             .collect();
 
